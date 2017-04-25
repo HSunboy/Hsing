@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+'use strict'
+
+const path = require('path')
+const program = require('commander')
+const logger = require('../util/log/logger')
+const chalk = require('chalk')
+const isPathInside = require('is-path-inside')
+
+logger.warn(`模块路径：${__dirname}`)
+logger.warn(`执行路径：${process.cwd()}`)
+logger.warn(`参数信息：${process.argv}`)
+process.on('exit', function() {
+    console.log()
+})
+
+
+
+program
+    .usage('<command> [options]')
+    .version(require('../package.json').version)
+    .command('watch', '开发模式服务')
+    .command('build [server]', '生产编译')
+    .command('init [type]', '初始化')
+    .command('server', '构建服务器')
+    .parse(process.argv)
+
+// program
+//     .option('-c --config <configfile>', 'config file', val => val.split(','))
+//     .option('-p --progress', 'Display progress')
+//     .option('--no-color', 'Disable colors to display the statistics')
+//     .option('--output-public-path <publicPath>', 'Replace output.publicPath.')
+//     .parse(process.argv)
+
+if (!process.argv.slice(2).length) {
+    program.outputHelp()
+}

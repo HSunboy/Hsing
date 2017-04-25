@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+'use strict'
+const path = require('path')
+const chalk = require('chalk')
+const exec = require('../util/exec.js')
+const isInstalled = require('../util/is-installed.js')
+const init_type = process.argv[2];
+const check = require('../util/check.js')
+check.checkVersion()
+if (init_type && isInstalled('hsing-' + init_type)) {
+    const hsing_vue = require('hsing-' + init_type)
+    hsing_vue()
+} else {
+    const tmp = exec('npm', ['install', 'hsing-' + init_type, '--save', '--silent'], { stdio: 'inherit' })
+    const hsing_vue = require('../../hsing-' + init_type)
+    hsing_vue()
+}

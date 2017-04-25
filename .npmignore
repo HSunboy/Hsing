@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+dist
+.DS_Store
+etc
+.idea
+.vscode
+src
+test
+.hsing

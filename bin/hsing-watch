@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+'use strict'
+const logger = require('../util/log/logger')
+const webpack = require('webpack')
+const merge = require('../util/merge.js')
+const chalk = require('chalk')
+const user_path = require('../util/user-path.js')
+const hslog = require('../util/hslog.js')
+const Webpackserver = require('webpack-dev-server')
+const user_conf_path = require('../util/user-path.js')
+
+var user_conf = require(user_conf_path.pathOfConf).watch
+var baseConf = {
+    stats: "errors-only",
+    https: false,
+    compress: false,
+    hot: false
+}
+
+baseConf = Object.assign(baseConf, user_conf)
+
+const hsing = webpack(merge);
+
+const server = new Webpackserver(hsing, baseConf);
+server.listen(user_conf.port, "127.0.0.1", function() {
+    logger.log("Starting server on http://localhost:", user_conf.port)
+});
