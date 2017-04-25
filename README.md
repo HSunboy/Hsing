@@ -1,11 +1,11 @@
-##开始
+## 开始
 ```
 添加配置文件到项目根目录
 hsing.conf.js
 ```
 
 
-##格式：
+## 格式：
 ```javascript
 module.exports={
     entry:你的入口,
@@ -18,9 +18,9 @@ module.exports={
 
 
 
-##使用方法：
+## 使用方法：
 
-添加script:
+### 添加script:
 ```javascript
 {
     'hsing-build':'hsing-build'
@@ -29,7 +29,7 @@ module.exports={
 
 
 
-##更新：
+## 更新：
 ```
 0.0.12:去除win32限制
 0.0.15:加入联机构建
