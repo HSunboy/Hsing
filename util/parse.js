@@ -1,42 +1,32 @@
 const path = require('path')
-const lodash = require('lodash')
-const load_plugin = require('./load-plugin.js')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-module.exports = function(conf) {
 
-    let pconf = {};
-    pconf.plugins = [];
+const assert = require('assert')
+const loaderDispatch = require('./loaderDispatch')
 
-    pconf.entry = {
-        main: conf.entry
-    }
-    if (conf.vendor && conf.vendor.length > 0) {
-        pconf.entry.vendor = conf.vendor
-    }
-    //souceMap
-    if (conf.sourceMap) {
-        pconf.devtool = "cheap-module-source-map"
-    }
-    //htmlwebpack配置
-    if (conf.template && conf.template.trim()) {
-        let htmlplugin = new HtmlWebpackPlugin({
-            template: path.resolve(process.cwd(), conf.template)
+module.exports = function(Hsing, callback) {
+    new Promise(function(resolve, reject) {
+        if (Hsing.beforeParse) {
+            Hsing.beforeParse(resolve, Hsing.baseConf, Hsing.options)
+        } else {
+            resolve()
+        }
+    }).then(function() {
+        return new Promise(function(resolve, reject) {
+            loaderDispatch(Hsing.loaders, Hsing.baseConf, Hsing.options)
+            resolve()
         })
-        pconf.plugins.push(htmlplugin)
-    }
-    //公共js
-    let commonsplugin = new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor', 'wplib']
-    })
-
-    pconf.plugins.push(commonsplugin)
-
-
-
-
-
-
-
-    return pconf;
+    }).then(function() {
+        return new Promise(function(resolve, reject) {
+            if (Hsing.afterParse) {
+                Hsing.afterParse(resolve, Hsing.baseConf, Hsing.options)
+            } else {
+                resolve()
+            }
+        })
+    }).catch(function(e) {
+        console.log(e)
+        process.exit(-1)
+    }).then(function() {
+        callback(Hsing.baseConf)
+    });
 }
