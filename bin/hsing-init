@@ -7,12 +7,25 @@ const exec = require('../util/exec.js')
 const isInstalled = require('../util/is-installed.js')
 const init_type = process.argv[2];
 const check = require('../util/check.js')
+const installTemplate = require('../util/core/installTemplate')
+const hslog = require('../util/hslog')
 check.checkVersion()
-if (init_type && isInstalled('hsing-' + init_type)) {
-    const hsing_vue = require('hsing-' + init_type)
-    hsing_vue()
-} else {
-    const tmp = exec('npm', ['install', 'hsing-' + init_type, '--save', '--silent'], { stdio: 'inherit' })
-    const hsing_vue = require('../../hsing-' + init_type)
-    hsing_vue()
+if (!init_type) {
+    hslog.fatal('不是有效的命令！！')
 }
+if (!isInstalled('hsing-' + init_type)) {
+    const tmp = exec('npm', ['install', 'hsing-' + init_type, '--save'], { stdio: 'inherit' })
+
+}
+const hsing_vue = require('hsing-' + init_type)
+console.log(hsing_vue)
+if (hsing_vue.preInstall) {
+    hsing_vue.preInstall();
+}
+installTemplate(hsing_vue)
+
+if (hsing_vue.afterInstall) {
+    hsing_vue.afterInstall();
+}
+
+hslog.success('执行结束')
