@@ -17,7 +17,7 @@ if (!isInstalled('hsing-' + init_type)) {
     const tmp = exec('npm', ['install', 'hsing-' + init_type, '--save'], { stdio: 'inherit' })
 
 }
-const hsing_vue = require('hsing-' + init_type + '/index.js')
+const hsing_vue = require('hsing-' + init_type)
 console.log(hsing_vue)
 if (hsing_vue.preInstall) {
     hsing_vue.preInstall();
