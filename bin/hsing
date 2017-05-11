@@ -5,17 +5,13 @@
 const path = require('path')
 const program = require('commander')
 const logger = require('../util/log/logger')
-const chalk = require('chalk')
-const isPathInside = require('is-path-inside')
 
 logger.warn(`模块路径：${__dirname}`)
 logger.warn(`执行路径：${process.cwd()}`)
 logger.warn(`参数信息：${process.argv}`)
-process.on('exit', function() {
-    console.log()
+process.on('exit', function () {
+  console.log()
 })
-
-
 
 program
     .usage('<command> [options]')
@@ -34,5 +30,5 @@ program
 //     .parse(process.argv)
 
 if (!process.argv.slice(2).length) {
-    program.outputHelp()
+  program.outputHelp()
 }

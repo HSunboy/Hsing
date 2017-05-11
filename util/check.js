@@ -5,34 +5,24 @@ const fs = require('fs')
 const updateNotifier = require('update-notifier')
 const shelljs = require('shelljs')
 const pkg = require('../package.json')
-const PLUGIN_PATH = process.cwd();
+const PLUGIN_PATH = process.cwd()
 
+exports.checkPermission = function () { // 创建删除临时文件夹来测试权限
+  const tmpFile = path.join(PLUGIN_PATH, 'tmp')
 
-
-
-exports.checkPermission = function() { //创建删除临时文件夹来测试权限
-    const tmpFile = path.join(PLUGIN_PATH, 'tmp')
-
-    fs.writeFileSync(path.join(PLUGIN_PATH, 'tmp'))
-    shelljs.rm(tmpFile)
+  fs.writeFileSync(path.join(PLUGIN_PATH, 'tmp'))
+  shelljs.rm(tmpFile)
 }
 
+exports.checkVersion = function () {
+  var notifier = updateNotifier({ pkg })
 
-exports.checkVersion = function() {
-    var notifier = updateNotifier({ pkg })
-
-    notifier.notify()
-    if (notifier.update) {
-        console.log(notifier.update)
-    }
+  notifier.notify()
+  if (notifier.update) {
+    console.log(notifier.update)
+  }
 }
 
-
-exports.pluginExists = function(name) {
-    return fs.existsSync(path.join(PLUGIN_PATH, 'node_modules', name))
-}
-
-
-exports.localExists = function(name) {
-    return fs.existsSync(path.join(CWD_PATH, 'node_modules', name))
+exports.pluginExists = function (name) {
+  return fs.existsSync(path.join(PLUGIN_PATH, 'node_modules', name))
 }

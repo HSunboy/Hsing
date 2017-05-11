@@ -2,27 +2,25 @@
 
 'use strict'
 const logger = require('../util/log/logger')
-const webpack = require('webpack')
-const merge = require('../util/merge.js')
-const chalk = require('chalk')
-const user_path = require('../util/user-path.js')
-const hslog = require('../util/hslog.js')
+
 const Webpackserver = require('webpack-dev-server')
-const user_conf_path = require('../util/user-path.js')
+const userConfPath = require('../util/user-path.js')
+const webpack = require('webpack')
+const coreHsing = require('../util/core/coreHsing')
+const coreParse = require('../util/parse')
 
-var user_conf = require(user_conf_path.pathOfConf).watch
-var baseConf = {
-    stats: "errors-only",
-    https: false,
-    compress: false,
-    hot: false
-}
+var userConf = require(userConfPath.pathOfConf).watch
 
-baseConf = Object.assign(baseConf, user_conf)
-
-const hsing = webpack(merge);
-
-const server = new Webpackserver(hsing, baseConf);
-server.listen(user_conf.port, "127.0.0.1", function() {
-    logger.log("Starting server on http://localhost:", user_conf.port)
-});
+var baseConfServer = Object.assign({
+  stats: 'errors-only',
+  https: false,
+  compress: false,
+  hot: false
+}, userConf)
+coreParse(coreHsing, function (baseConf) {
+  const hsing = webpack(baseConf)
+  const server = new Webpackserver(hsing, baseConfServer)
+  server.listen(userConf.port, '127.0.0.1', function () {
+    logger.log('Starting server on http://localhost:', userConf.port)
+  })
+})

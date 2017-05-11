@@ -2,4 +2,4 @@
 
 'use strict'
 
-const serverUtil = require('../cloudBuild/server.js')
+require('../cloudBuild/server.js')
