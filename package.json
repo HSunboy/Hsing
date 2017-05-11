@@ -1,6 +1,6 @@
 {
   "name": "hsing",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "description": "webpack快速编译集成工具",
   "main": "lib/index.js",
   "keywords": [

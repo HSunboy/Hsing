@@ -6,15 +6,15 @@ const isServerBuild = process.argv[2]
 if (isServerBuild && isServerBuild === 'server') {
   require('../cloudBuild/client.js')
   process.exit(0)
+} else {
+  const coreHsing = require('../util/core/coreHsing')
+  const coreParse = require('../util/parse')
+  const webpackParse = require('../util/webpackParse')
+
+  coreParse(coreHsing, function (baseConf) {
+    webpackParse(baseConf)
+  })
 }
-
-const coreHsing = require('../util/core/coreHsing')
-const coreParse = require('../util/parse')
-const webpackParse = require('../util/webpackParse')
-
-coreParse(coreHsing, function (baseConf) {
-  webpackParse(baseConf)
-})
 
 // console.log("构建信息:\n" + stats.toString({
 //     colors: true
