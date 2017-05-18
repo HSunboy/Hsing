@@ -5,7 +5,6 @@
 const isServerBuild = process.argv[2]
 if (isServerBuild && isServerBuild === 'server') {
   require('../cloudBuild/client.js')
-  process.exit(0)
 } else {
   const coreHsing = require('../util/core/coreHsing')
   const coreParse = require('../util/parse')
